@@ -1,0 +1,18 @@
+services:
+  master:
+    image: locustio/locust
+    ports:
+     - "8089:8089"
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/test_script.py --master
+  
+  worker:
+    image: locustio/locust
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/test_script.py --worker --master-host master
+
+
+# Run: docker-compose up --scale worker=4
+# Check: http://127.0.0.1:8089/
